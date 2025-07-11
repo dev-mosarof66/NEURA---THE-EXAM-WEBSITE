@@ -47,9 +47,9 @@ const header = () => {
             {
                 menu && (
                     <motion.div
-                        initial={{ x: 500, opacity: 0 }}
+                        initial={{ x: 300, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.5, type: 'spring', bounce: 0.3 }}
                         className='fixed sm:hidden top-16 left-0 w-full bg-transparent z-50'
                     >
                         <nav className='flex flex-col items-center py-2 gap-4 w-[96%] mx-auto backdrop-blur-md rounded-lg shadow-lg'>
@@ -64,7 +64,7 @@ const header = () => {
                                 scale: 1.05,
                                 transition: { duration: 0.2 }
                             }} whileTap={{
-                                scale: 0.95,
+                                scale: 0.9,
                                 transition: { duration: 0.1 }
                             }} className='w-[80%] mx-auto bg-gradient-to-br from-primary via-secondary to-primary text-sm px-2 text-gray-900 font-medium inset-0.5 p-1 rounded-sm hover:bg-secondary/80 active:bg-secondary/80 cursor-pointer transition duration-300 delay-75'>
                                 Get Started
