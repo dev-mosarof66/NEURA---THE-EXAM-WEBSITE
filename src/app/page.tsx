@@ -1,7 +1,18 @@
 "use client";
 import Header from "@/components/header";
+import Hero from "@/components/hero";
+import About from "@/components/about";
+import Footer from "@/components/footer";
+import { useState } from "react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FiChevronsRight } from "react-icons/fi";
 
 export default function LandingPage() {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   return (
     <div>
       <video
@@ -18,9 +29,72 @@ export default function LandingPage() {
       <div className="relative z-10">
         {/* header  */}
 
-        <Header />
+        <Header setIsOpen={setIsOpen} />
+        <Hero setIsOpen={setIsOpen} />
+        <About />
+        <Footer />
       </div>
+      {isOpen && (
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.8,
+          }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed top-0 left-0 w-full h-full bg-black/70 z-40"
+        >
+          <div className=" max-w-5xl mx-auto h-full flex items-center justify-center">
+            <div className="p-6 rounded-lg shadow-lg max-w-md w-full h-64 bg-gray-800 text-white text-center flex flex-col gap-6">
+              <div>
+                <h2 className="text-xl font-bold">Welcome to Neura</h2>
+                <p>How you want to continue with us ?</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div
+                  onClick={() => setSelectedOption("Teacher")}
+                  className={`w-full py-2 ${
+                    selectedOption === "Teacher"
+                      ? "bg-secondary"
+                      : "border border-gray-600"
+                  } transition-colors duration-300 cursor-pointer`}
+                >
+                  As a Teacher
+                </div>
+                <div
+                  onClick={() => setSelectedOption("Student")}
+                  className={`w-full py-2 ${
+                    selectedOption === "Student"
+                      ? "bg-secondary"
+                      : "border border-gray-600"
+                  } transition-colors duration-300 cursor-pointer`}
+                >
+                  As a Student
+                </div>
+              </div>
+              <div className="flex items-center justify-end">
+                <button
+                  onClick={() =>
+                    selectedOption !== "" &&
+                    router.push(
+                      selectedOption === "Teacher"
+                        ? "/teacher/login"
+                        : "/student/login"
+                    )
+                  }
+                  className="flex items-center gap-2 group hover:text-white/90 cursor-pointer transition duration-300 delay-75"
+                >
+                  <p>Next</p>
+                  <FiChevronsRight
+                    size={22}
+                    className="group-hover:translate-x-1 transition-transform duration-300 delay-75"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
-

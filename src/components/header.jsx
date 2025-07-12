@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { motion } from 'motion/react'
 import { FaBars, FaTimes } from 'react-icons/fa'
-const header = () => {
+
+
+const header = ({ setIsOpen }) => {
     const [menu, setMenu] = useState(false)
     return (
         <div className='w-full'>
@@ -25,18 +27,17 @@ const header = () => {
                         <nav className='flex items-center py-2 gap-4'>
                             <a href="#home" className='text-white hover:text-white/60 active:text-white/70 focus:text-primary transition-all duration-200 delay-75 cursor-pointer text-sm'>Home</a>
                             <a href="#about" className='text-white hover:text-white/60 active:text-white/70 focus:text-primary transition-all duration-200 delay-75 cursor-pointer text-sm'>About</a>
-                            <a href="#services" className='text-white hover:text-white/60 active:text-white/70 focus:text-primary transition-all duration-200 delay-75 cursor-pointer text-sm'>Services</a>
+                            <a href="#pricing" className='text-white hover:text-white/60 active:text-white/70 focus:text-primary transition-all duration-200 delay-75 cursor-pointer text-sm'>Pricing</a>
                             <a href="#contact" className='text-white hover:text-white/60 active:text-white/70 focus:text-primary transition-all duration-200 delay-75 cursor-pointer text-sm'>Contact</a>
-                            <motion.button initial={{ scale: 0 }} animate={{
-                                scale: 1,
-                                transition: { duration: 0.3, delay: 0.1 }
-                            }} whileHover={{
+                            <motion.button whileHover={{
                                 scale: 1.05,
                                 transition: { duration: 0.2 }
                             }} whileTap={{
                                 scale: 0.95,
                                 transition: { duration: 0.1 }
-                            }} className='w-[80%] mx-auto bg-gradient-to-br from-primary via-secondary to-primary text-sm px-2 text-gray-900 font-medium inset-0.5 p-1 rounded-sm hover:bg-secondary/80 active:bg-secondary/80 cursor-pointer transition duration-300 delay-75'>
+                            }}
+                                onClick={() => setIsOpen(true)}
+                                className='w-[80%] mx-auto bg-gradient-to-br from-primary via-secondary to-primary text-sm px-2 text-gray-900 font-medium inset-0.5 p-1 rounded-sm hover:bg-secondary/80 active:bg-secondary/80 cursor-pointer transition duration-300 delay-75'>
                                 Get Started
                             </motion.button>
                         </nav>
@@ -66,13 +67,19 @@ const header = () => {
                             }} whileTap={{
                                 scale: 0.9,
                                 transition: { duration: 0.1 }
-                            }} className='w-[80%] mx-auto bg-gradient-to-br from-primary via-secondary to-primary text-sm px-2 text-gray-900 font-medium inset-0.5 p-1 rounded-sm hover:bg-secondary/80 active:bg-secondary/80 cursor-pointer transition duration-300 delay-75'>
+                            }}
+                            onClick={() => {
+                                setMenu(false);
+                                setIsOpen(true);
+                            }}
+                            className='w-[80%] mx-auto bg-gradient-to-br from-primary via-secondary to-primary text-sm px-2 text-gray-900 font-medium inset-0.5 p-1 rounded-sm hover:bg-secondary/80 active:bg-secondary/80 cursor-pointer transition duration-300 delay-75'>
                                 Get Started
                             </motion.button>
                         </nav>
                     </motion.div>
                 )
             }
+
         </div>
     )
 }
