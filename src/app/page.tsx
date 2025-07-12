@@ -5,7 +5,6 @@ import About from "@/components/about";
 import Footer from "@/components/footer";
 import { useState } from "react";
 import { motion } from "motion/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiChevronsRight } from "react-icons/fi";
 
