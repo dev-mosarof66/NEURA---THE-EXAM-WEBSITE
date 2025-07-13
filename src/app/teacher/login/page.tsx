@@ -11,7 +11,7 @@ const TeacherLoginPage = () => {
           <div className="p-2 rounded-full border border-gray-300 shadow-sm mb-3 text-white">
             <FaUser size={25} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-500">Teacher Login</h2>
+          <h2 className="text-2xl font-bold text-gray-300">Teacher Login</h2>
           <p className="text-gray-400 text-sm">
             Welcome back! Please login to your account.
           </p>
