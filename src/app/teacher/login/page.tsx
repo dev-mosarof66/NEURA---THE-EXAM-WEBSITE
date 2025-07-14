@@ -1,9 +1,71 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import {
+  handleGoogleLogin,
+  handleEmailLogin,
+} from "@/helper/auth";
+import Form from "@/components/form";
+import Loader from "@/components/loader";
+import Button from "@/components/button";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const TeacherLoginPage = () => {
+  const router = useRouter();
+  const [google, setGoogle] = useState(false);
+  const [emailSignup, setEmailSignup] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setEmailSignup(true);
+    const res = await handleEmailLogin(email, password);
+    if (res) {
+      toast.success("User login successful", { position: "bottom-right" });
+      router.push("/teacher/dashboard");
+    } else {
+      toast.error("firebase login failed");
+      router.push("/teacher/login");
+    }
+    setEmailSignup(false);
+  };
+
+  const GoogleLogin = async () => {
+    try {
+      setGoogle(true);
+      const res = await handleGoogleLogin();
+      if (res) {
+        const response = await axios.post("/api/auth/register", {
+          email: res.email,
+          role: "Teacher",
+        });
+        console.log("Response from server:", response.data);
+        toast.success("User login successful", { position: "bottom-right" });
+        router.push("/teacher/dashboard");
+      } else {
+        toast.error("firebase login failed");
+        router.push("/teacher/login");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error during Google login:", error);
+      if (error.status === 400) {
+        toast.error(error.message);
+      } else if (error.status === 500) {
+        router.push("/error");
+        toast.error("Internal Server Error");
+      }
+    } finally {
+      setGoogle(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-purple-900 to-gray-900">
       <div className="backdrop-blur-2xl shadow-xl rounded-2xl p-8 w-full max-w-md  border border-gray-200">
@@ -12,66 +74,35 @@ const TeacherLoginPage = () => {
             <FaUser size={25} />
           </div>
           <h2 className="text-2xl font-bold text-gray-300">Teacher Login</h2>
-          <p className="text-gray-400 text-sm">
-            Welcome back! Please login to your account.
-          </p>
+          <p className="text-gray-400 text-sm">Please login to continue.</p>
         </div>
         {/* Google Login Button */}
-        <button
-          type="button"
-          className="w-full flex items-center justify-center gap-3 py-2 px-4 mb-4 border border-gray-300 bg-white rounded-lg shadow hover:bg-gray-50 transition-colors duration-150 font-medium text-gray-700 cursor-pointer"
-        >
-          <FcGoogle size={22} />
-          <span>
-            <span>Sign in with </span>
-            Google
-          </span>
-        </button>
+        <div>
+          {google ? (
+            <div className="w-full flex items-center justify-center gap-3 py-2 px-4 mb-4 border border-gray-300 bg-white rounded-lg shadow text-secondary">
+              <Loader />
+            </div>
+          ) : (
+            <Button onClick={GoogleLogin}>
+              <FcGoogle size={20} />
+              Sign In with Google
+            </Button>
+          )}
+        </div>
         {/* Divider */}
         <div className="divider divider-secondary">OR</div>
-        {/* Email/Password Form */}
-        <form className="space-y-5">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autoComplete="email"
-              required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 "
-              placeholder="teacher@example.com"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              autoComplete="current-password"
-              required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 "
-              placeholder="••••••••"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-purple-600 transition-colors duration-200 cursor-pointer"
-          >
-            Login
-          </button>
-        </form>
+        {/* form  */}
+
+        <Form
+          email={email}
+          password={password}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          handleSubmit={handleSubmit}
+          emailSignup={emailSignup}
+          buttonText='Log In'
+        />
+
         <div className="mt-6">
           <span className="text-gray-400 text-sm">
             Don&apos;t have an account?{" "}
@@ -80,7 +111,7 @@ const TeacherLoginPage = () => {
             href="/teacher/signup"
             className="text-blue-600 hover:underline font-medium"
           >
-            Sign up
+            Login
           </Link>
         </div>
       </div>

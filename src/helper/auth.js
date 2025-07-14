@@ -3,6 +3,7 @@ import { auth } from '../lib/firebase';
 import { toast } from 'react-hot-toast';
 
 
+
 const handleError = (code) => {
     let errorMessage = null;
 
@@ -34,11 +35,9 @@ const handleError = (code) => {
 
 
 
-export const handleGoogleLogin = async (setGoogle) => {
+export const handleGoogleLogin = async () => {
     try {
-        setGoogle(true);
         console.log("Attempting Google login...");
-        console.log(process.env)
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
@@ -46,8 +45,6 @@ export const handleGoogleLogin = async (setGoogle) => {
             return null;
         }
         console.log("Google login successful:", user);
-        toast.success("Google login successful");
-        setGoogle(false);
         return user;
     } catch (error) {
         console.error("Google login failed:", error);
@@ -59,6 +56,8 @@ export const handleGoogleLogin = async (setGoogle) => {
                 position: 'top-right',
             });
         }
+
+        return null;
 
     }
 }

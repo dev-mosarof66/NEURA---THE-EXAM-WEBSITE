@@ -7,8 +7,12 @@ import { handleGoogleLogin, handleEmailSignup } from "@/helper/auth";
 import Form from "@/components/form";
 import Loader from "@/components/loader";
 import Button from "@/components/button";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const TeacherSignupPage = () => {
+  const router = useRouter();
   const [google, setGoogle] = useState(false);
   const [emailSignup, setEmailSignup] = useState(false);
   const [email, setEmail] = useState("");
@@ -16,14 +20,62 @@ const TeacherSignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setEmailSignup(true);
-    const res = await handleEmailSignup(email, password);
-    if (res) {
+    try {
+      setEmailSignup(true);
+      const res = await handleEmailSignup(email, password);
+      if (res) {
+        const response = await axios.post("/api/auth/register", {
+          email: res.email,
+          role: "Teacher",
+        });
+        console.log("Response from server:", response.data);
+        toast.success("User login successful", { position: "bottom-right" });
+        router.push("/teacher/dashboard");
+      } else {
+        toast.error("firebase login failed");
+        router.push("/teacher/login");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error during Google login:", error);
+      if (error.status === 400) {
+        toast.error(error.message);
+      } else if (error.status === 500) {
+        router.push("/error");
+        toast.error("Internal Server Error");
+      }
+    } finally {
       setEmailSignup(false);
-      setEmail("");
-      setPassword("");
-    } else {
-      setEmailSignup(false);
+    }
+  };
+
+  const GoogleLogin = async () => {
+    try {
+      setGoogle(true);
+      const res = await handleGoogleLogin();
+      if (res) {
+        const response = await axios.post("/api/auth/register", {
+          email: res.email,
+          role: "Teacher",
+        });
+        console.log("Response from server:", response.data);
+        toast.success("User login successful", { position: "bottom-right" });
+        router.push("/teacher/dashboard");
+      } else {
+        toast.error("firebase login failed");
+        router.push("/teacher/login");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error during Google login:", error);
+      if (error.status === 400) {
+        toast.error(error.message);
+      } else if (error.status === 500) {
+        router.push("/error");
+        toast.error("Internal Server Error");
+      }
+    } finally {
+      setGoogle(false);
     }
   };
 
@@ -46,12 +98,7 @@ const TeacherSignupPage = () => {
               <Loader />
             </div>
           ) : (
-            <Button
-              onClick={() => {
-                setGoogle(true);
-                handleGoogleLogin();
-              }}
-            >
+            <Button onClick={GoogleLogin}>
               <FcGoogle size={20} />
               Sign up with Google
             </Button>

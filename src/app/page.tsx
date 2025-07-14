@@ -3,15 +3,59 @@ import Header from "@/components/header";
 import Hero from "@/components/hero";
 import About from "@/components/about";
 import Footer from "@/components/footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { FiChevronsRight } from "react-icons/fi";
+import axios from "axios";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/store/userSlice";
+import { RootState } from "@/store/store";
 
 export default function LandingPage() {
+  const user = useSelector((state: RootState) => state.user.data);
+  const dispatch = useDispatch();
+  console.log("User from Redux:", user);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+
+  const fetchUserRole = async () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const response = await axios.get("/api/auth", {
+            params: { email: user.email },
+          });
+          console.log("User role fetched:", response.data);
+          const role = response.data.role;
+
+          const updatedUser = {
+            ...response.data.user,
+            role: role,
+          };
+
+          dispatch(setUser(updatedUser));
+
+          if (role === "Teacher") {
+            router.push("/teacher/dashboard");
+          } else if (role === "Student") {
+            router.push("/student/dashboard");
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchUserRole();
+  }, []);
+
+  // throw new Error("This is a test error for the error boundary");
   return (
     <div>
       <video

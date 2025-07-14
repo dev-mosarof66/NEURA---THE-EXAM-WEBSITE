@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-
-const form = ({
+const Form = ({
   handleSubmit,
   email,
   setEmail,
   password,
   setPassword,
   emailSignup,
+  buttonText = 'Sign Up'
 }) => {
+  const [togglePasswordVisibility, setTogglePasswordVisibility] =
+    useState(false);
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
@@ -30,7 +33,7 @@ const form = ({
           placeholder="teacher@example.com"
         />
       </div>
-      <div>
+      <div className="relative">
         <label
           htmlFor="password"
           className="block text-sm font-medium text-gray-500"
@@ -38,16 +41,37 @@ const form = ({
           Password
         </label>
         <input
-          type="password"
+          type={togglePasswordVisibility ? "text" : "password"}
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           id="password"
           name="password"
-          autoComplete="current-password"
           required
           className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 "
           placeholder="password"
         />
+        <div className="absolute right-2 top-6.5 mt-2 mr-3">
+          {togglePasswordVisibility ? (
+            <span
+              onClick={() =>
+                setTogglePasswordVisibility(!togglePasswordVisibility)
+              }
+              className="text-sm text-gray-300 cursor-pointer"
+            >
+              <FaEyeSlash size={20} />
+            </span>
+          ) : (
+            <span
+              onClick={() =>
+                setTogglePasswordVisibility(!togglePasswordVisibility)
+              }
+              className="text-sm text-gray-300 cursor-pointer"
+            >
+              <FaEye size={20} />
+            </span>
+          )}
+        </div>
       </div>
       <div>
         {emailSignup ? (
@@ -59,7 +83,7 @@ const form = ({
             type="submit"
             className="w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-purple-600 transition-colors duration-200 cursor-pointer"
           >
-            Sign Up
+           {buttonText}
           </button>
         )}
       </div>
@@ -67,4 +91,4 @@ const form = ({
   );
 };
 
-export default form;
+export default Form;
