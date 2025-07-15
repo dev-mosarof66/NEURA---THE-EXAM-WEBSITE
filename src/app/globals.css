@@ -12,6 +12,62 @@
   --breakpoint-xs: 34rem;
 }
 
+@theme {
+  --color-rich_black-100: #030609;
+  --color-rich_black-200: #050b11;
+  --color-rich_black-300: #08111a;
+  --color-rich_black-400: #0b1622;
+  --color-rich_black-500: #0d1b2a;
+  --color-rich_black-600: #234870;
+  --color-rich_black-700: #3875b6;
+  --color-rich_black-800: #74a3d4;
+  --color-rich_black-900: #bad1ea;
+
+  /* Oxford Blue */
+  --color-oxford_blue-100: #05080c;
+  --color-oxford_blue-200: #0b0f18;
+  --color-oxford_blue-300: #101724;
+  --color-oxford_blue-400: #161f30;
+  --color-oxford_blue-500: #1b263b;
+  --color-oxford_blue-600: #364c75;
+  --color-oxford_blue-700: #5172af;
+  --color-oxford_blue-800: #8ba1ca;
+  --color-oxford_blue-900: #c5d0e4;
+
+  /* Yinmn Blue */
+  --color-yinmn_blue-100: #0d1218;
+  --color-yinmn_blue-200: #1a242f;
+  --color-yinmn_blue-300: #273647;
+  --color-yinmn_blue-400: #34485f;
+  --color-yinmn_blue-500: #415a77;
+  --color-yinmn_blue-600: #587aa1;
+  --color-yinmn_blue-700: #819bb9;
+  --color-yinmn_blue-800: #abbcd1;
+  --color-yinmn_blue-900: #d5dee8;
+
+  /* Silver Lake Blue */
+  --color-silver_lake_blue-100: #161c23;
+  --color-silver_lake_blue-200: #2c3746;
+  --color-silver_lake_blue-300: #425369;
+  --color-silver_lake_blue-400: #586f8d;
+  --color-silver_lake_blue-500: #778da9;
+  --color-silver_lake_blue-600: #91a2ba;
+  --color-silver_lake_blue-700: #acbacb;
+  --color-silver_lake_blue-800: #c8d1dc;
+  --color-silver_lake_blue-900: #e3e8ee;
+
+  /* Platinum */
+  --color-platinum-100: #2e2f2a;
+  --color-platinum-200: #5b5e53;
+  --color-platinum-300: #898c7e;
+  --color-platinum-400: #b4b6ad;
+  --color-platinum-500: #e0e1dd;
+  --color-platinum-600: #e5e6e3;
+  --color-platinum-700: #ececea;
+  --color-platinum-800: #f2f3f1;
+  --color-platinum-900: #f9f9f8;
+}
+
 
 
 body {

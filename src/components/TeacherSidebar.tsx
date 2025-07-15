@@ -1,22 +1,26 @@
 import React from "react";
 import { MdHome, MdNotifications } from "react-icons/md";
-import { FaListAlt } from "react-icons/fa";
+import { FaListAlt, FaUser } from "react-icons/fa";
 
 const TeacherSidebar = () => {
   return (
-    <div className="h-screen absolute flex flex-col items-center justify-center">
-      <div className="bg-green-400 py-6 px-1 flex flex-col gap-4 rounded-tr-2xl rounded-br-2xl">
-        <div className="hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm">
+    <div className="h-screen hidden sm:block">
+      <div className="w-full md:w-48 h-screen bg-green-400 flex flex-col items-start justify-between px-2 py-10 gap-4 rounded-tr-2xl rounded-br-2xl">
+        <div className="w-full hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm flex items-center gap-3 tooltip tooltip-right tooltip-info" data-tip='Home'>
           <MdHome size={27} />
-          <p className="hidden sm:block">Home</p>
+          <p className="text-sm font-semibold hidden md:block">Home</p>
         </div>
-        <div className="hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm">
-          <MdNotifications size={26} />
-          <p className="hidden sm:block">Notifications</p>
-        </div>
-        <div className="hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm flex items-center justify-center">
+        <div className="w-full hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm flex items-center justify-center md:justify-start gap-3 tooltip tooltip-right tooltip-info" data-tip='Home'>
           <FaListAlt size={20} />
-          <p className="hidden sm:block">Create Exam</p>
+          <p className="text-sm py-0.5 font-semibold hidden md:block">Exams</p>
+        </div>
+        <div className="w-full hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm flex items-center gap-3 tooltip tooltip-right tooltip-info" data-tip='Home'>
+          <MdNotifications size={27} />
+          <p className="text-sm py-0.5 font-semibold hidden md:block">Notification</p>
+        </div>
+        <div className="w-full hover:bg-gray-500/50 active:bg-gray-500/50 cursor-pointer transition duration-300 delay-75 p-2 rounded-sm flex items-center gap-3 tooltip tooltip-right tooltip-info" data-tip='Home'>
+          <FaUser size={24} />
+          <p className="text-sm py-0.5 font-semibold hidden md:block">Profile</p>
         </div>
       </div>
     </div>
